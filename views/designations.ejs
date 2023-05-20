@@ -1,0 +1,147 @@
+<%- include("./partials/dashboardHeader.ejs") -%>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Designations</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-outline-primary float-right btnAddDesignation">Add Designation</button>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="designationTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Designation Name</th>
+                                    <th>Designation Abbreviation</th>
+                                    <th>Department Name</th>
+                                    <th>Department Abbreviation</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="designationTableBody">
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
+                <!-- Add Designation Modal -->
+                <div class="modal fade" id="modalAddEditDesignation" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="addEditDesignationLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Designation</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDesignationId">Designation ID</label>
+                                        <input type="text" class="form-control" id="inputDesignationId" placeholder="Enter Designation ID">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputDesignationName">Designation Name</label>
+                                        <input type="text" class="form-control" id="inputDesignationName" placeholder="Enter Designation Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDesignationAbbr">Designation Abbreviation</label>
+                                        <input type="text" class="form-control" id="inputDesignationAbbr" placeholder="Enter Designation Abbreviation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectDepartmentName">Department Name</label>
+                                        <select class="form-control" id="selectDepartmentName" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary saveDesignation">Save</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Add Designation Modal -->
+
+                <!-- Delete Designation Modal -->
+                <div class="modal fade" id="modalDeleteDesignation" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="deleteDesignationLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Designation</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete Designation <b id="toBeDeletedDesignationName"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDeleteDesignationId">Designation ID</label>
+                                        <input type="text" class="form-control" id="inputDeleteDesignationId" placeholder="Enter Designation ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger deleteDesignation">Delete</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Delete Designation Modal -->
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <%- include("./partials/dashboardFooter.ejs") -%>
+
+    <script src="./javascripts/designations.js"></script>
+</body>
+
+</html>
+

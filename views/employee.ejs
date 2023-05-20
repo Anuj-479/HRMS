@@ -1,0 +1,259 @@
+<%- include("./partials/dashboardHeader.ejs") -%>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Employees</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-outline-primary float-right btnAddEmployee">Add Employee</button>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="employeeTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Joining Date</th>
+                                    <th>UAN No</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="employeeTableBody">
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
+                <!-- Add Employee Modal -->
+                <div class="modal fade" id="modalAddEditEmployee" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="addEditEmployeeLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputEmployeeId">Employee ID</label>
+                                        <input type="text" class="form-control" id="inputEmployeeId" placeholder="Enter Employee ID">
+                                    </div>
+
+                                    <div class="card">
+                                      <div class="card-header">
+                                        <h5><b>Personal Details</b></h5>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputEmployeeName">Employee Name *</label>
+                                              <input type="text" class="form-control" id="inputEmployeeName" placeholder="Enter Employee Name">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="selectEmployeeGender">Gender *</label>
+                                              <select id="selectEmployeeGender" class="form-control" style="width: 100%;">
+                                                <option></option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputEmployeeDob">DOB</label>
+                                              <input type="date" class="form-control" id="inputEmployeeDob" placeholder="Enter Employee DOB">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputMobile">Mobile *</label>
+                                              <input type="text" class="form-control" id="inputMobile" placeholder="Enter Mobile">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputAltMobile">Alternate Mobile</label>
+                                              <input type="text" class="form-control" id="inputAltMobile" placeholder="Enter Alternate Mobile">
+                                            </div>
+                                          </div>    
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputEmail">E-mail</label>
+                                              <input type="text" class="form-control" id="inputEmail" placeholder="Enter Email ID">
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                   <div class="card">
+                                      <div class="card-header">
+                                        <h5><b>Professional Details</b></h5>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="selectEmployeeDepartment">Department *</label>
+                                              <select id="selectEmployeeDepartment"  class="form-control" style="width: 100%;">
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="selectEmployeeDesignation">Designation *</label>
+                                              <select id="selectEmployeeDesignation"  class="form-control" style="width: 100%;">
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputEmployeeDob">UAN No</label>
+                                              <input type="text" class="form-control" id="inputEmployeeUan" placeholder="Enter UAN No">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputEmployeeDob">Date Of Joining</label>
+                                              <input type="date" class="form-control" id="inputEmployeeDob" placeholder="Enter Employee DOB">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="card">
+                                      <div class="card-header">
+                                        <h5><b>Bank Details</b></h5>
+                                      </div>
+                                      <div class="card-body">
+                                         <div class="row">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputBankName">Bank Name</label>
+                                              <input type="text" class="form-control" id="inputBankName" placeholder="Enter Bnak Name">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputBranchName">Branch Name</label>
+                                              <input type="text" class="form-control" id="inputBranchName" placeholder="Enter Branch Name">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputIfscCode">IFSC Code</label>
+                                              <input type="date" class="form-control" id="inputIfscCode" placeholder="Enter IFSC Code">
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="inputAccountNo">Account No</label>
+                                              <input type="text" class="form-control" id="inputAccountNo" placeholder="Enter Account No">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary saveEmployee">Save</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Add Employee Modal -->
+
+                <!-- Delete Employee Modal -->
+                <div class="modal fade" id="modalDeleteEmployee" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="deleteEmployeeLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete Employee <b id="toBeDeletedEmployeeName"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDeleteEmployeeId">Employee ID</label>
+                                        <input type="text" class="form-control" id="inputDeleteEmployeeId" placeholder="Enter Employee ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger deleteEmployee">Delete</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Delete Employee Modal -->
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <%- include("./partials/dashboardFooter.ejs") -%>
+
+    <script src="./javascripts/employee.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,147 @@
+<%- include("./partials/dashboardHeader.ejs") -%>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Departments</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-outline-primary float-right btnAddDepartment">Add Department</button>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="departmentTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Department Name</th>
+                                    <th>Department Abbreviation</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="departmentTableBody">
+                                    
+                                </tbody>
+                                <!-- <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Department Name</th>
+                                    <th>Department Abbreviation</th>
+                                </tr>
+                                </tfoot> -->
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
+                <!-- Add Department Modal -->
+                <div class="modal fade" id="modalAddEditDepartment" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="addEditDepartmentLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Department</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDepartmentId">Department ID</label>
+                                        <input type="text" class="form-control" id="inputDepartmentId" placeholder="Enter Department ID">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputDepartmentName">Department Name</label>
+                                        <input type="text" class="form-control" id="inputDepartmentName" placeholder="Enter Department Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDepartmentAbbr">Department Abbreviation</label>
+                                        <input type="text" class="form-control" id="inputDepartmentAbbr" placeholder="Enter Department Abbreviation">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary saveDepartment">Save</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Add Department Modal -->
+
+                <!-- Delete Department Modal -->
+                <div class="modal fade" id="modalDeleteDepartment" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="deleteDepartmentLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Department</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete department <b id="toBeDeletedDepartmentName"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDeleteDepartmentId">Department ID</label>
+                                        <input type="text" class="form-control" id="inputDeleteDepartmentId" placeholder="Enter Department ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger deleteDepartment">Delete</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Delete Department Modal -->
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <%- include("./partials/dashboardFooter.ejs") -%>
+
+    <script src="./javascripts/departments.js"></script>
+</body>
+
+</html>
+
