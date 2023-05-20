@@ -1,0 +1,182 @@
+<%- include("./partials/dashboardHeader.ejs") -%>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Leave Requests</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="leaveRequestsTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Leave Request Start Date</th>
+                                    <th>Leave Request End Date</th>
+                                    <th>Status</th>
+                                    <th>Leave Request Fullfiller</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="leaveRequestsTableBody">
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
+                <!-- Add LeaveRequests Modal -->
+                <div class="modal fade" id="modalAddEditLeaveRequests" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="addEditLeaveRequestsLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add LeaveRequests</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputLeaveRequestsId">LeaveRequests ID</label>
+                                        <input type="text" class="form-control" id="inputLeaveRequestsId" placeholder="Enter LeaveRequests ID">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputLeaveRequestsName">LeaveRequests Name</label>
+                                        <input type="text" class="form-control" id="inputLeaveRequestsName" placeholder="Enter LeaveRequests Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLeaveRequestsAbbr">LeaveRequests Abbreviation</label>
+                                        <input type="text" class="form-control" id="inputLeaveRequestsAbbr" placeholder="Enter LeaveRequests Abbreviation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectDepartmentName">Department Name</label>
+                                        <select class="form-control" id="selectDepartmentName" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary saveLeaveRequests">Save</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Add LeaveRequests Modal -->
+
+                <!-- Approve LeaveRequests Modal -->
+                <div class="modal fade" id="modalApproveLeaveRequests" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="approveLeaveRequestsLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Approve Leave Request</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to approve leave request <b id="toBeApprovedLeaveRequestData"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputApproveLeaveRequestId">LeaveRequests ID</label>
+                                        <input type="text" class="form-control" id="inputApproveLeaveRequestId" placeholder="Enter Leave Requests ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success approveLeaveRequests">Approve</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Approve Leave Requests Modal -->
+
+                 <!-- Reject Leave Requests Modal -->
+                 <div class="modal fade" id="modalRejectLeaveRequests" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="rejectLeaveRequestsLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Reject Leave Request</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to reject leave request <b id="toBeRejectedLeaveRequestData"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputRejectLeaveRequestId">LeaveRequests ID</label>
+                                        <input type="text" class="form-control" id="inputRejectLeaveRequestId" placeholder="Enter Leave Requests ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger rejectLeaveRequest">Reject</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Reject Leave Requests Modal -->
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <%- include("./partials/dashboardFooter.ejs") -%>
+
+    <script src="../../javascripts/leave_requests.js"></script>
+</body>
+
+</html>
+

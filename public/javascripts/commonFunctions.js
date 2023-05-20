@@ -26,7 +26,7 @@ function handleNullValues(val, nullSub = "NA") {
 
 function formatDate(date) {
     if (date == undefined || date == null || date == "") {
-        return "";
+        return "NA";
     }
     const d = new Date(date);
     const yyyy = d.getFullYear();

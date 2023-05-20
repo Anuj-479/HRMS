@@ -249,6 +249,13 @@ const addEditEmployee = async (req, res) => {
 
             let [employeeInsertResult,] = await conn.query(employeeInsertQuery);
 
+            let credentialInsertQuery = `INSERT INTO 
+            credentials 
+            (\`username\`, \`password\`, \`personId\`, \`role\`) 
+            VALUES ('${email}', '${config.defaultPassword}', '${newPersonId}', 'employee');`
+
+            let [credentialInsertResult,] = await conn.query(credentialInsertQuery);
+            
             await conn.commit();
             return res.status(200).send({ 'msg': 'Employee data created' });
 

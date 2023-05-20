@@ -5,7 +5,8 @@ const config = {
         user: "hrms_user",
         password: "hrms_password",
         database: "hrms_db",
-    }
+    },
+    defaultPassword: "1234"
 
 }
 

@@ -43,6 +43,7 @@ const login = async (req, res, next) => {
                 let personDetails = personQueryResult[0];
 
                 let employeeQuery = `SELECT 
+                    e.id as employeeId,
                     e.personId,
                     e.companyId,
                     e.departmentId,

@@ -7,7 +7,7 @@ const departmentsController = require('./../controllers/departmentsController');
 
 
 router.get('/', authHelper.isAuthenticated, async function(req, res, next) {
-    res.render('departments', { title: 'Deparments', userDetails: req.session.user, personDetails: req.session.person, employeeDetails: req.session.employee  });
+    res.render('departments', { title: 'Departments', userDetails: req.session.user, personDetails: req.session.person, employeeDetails: req.session.employee  });
 })
 
 router.post('/fetchDepartmentsList', authHelper.isAuthenticated, departmentsController.validateFetchDepartmentsRequest, departmentsController.fetchDepartmentsList)

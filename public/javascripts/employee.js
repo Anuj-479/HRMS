@@ -164,10 +164,10 @@ function populateEmployeeTable() {
             <td>${employee.employeeId}</td>
             <td>${employee.personName}</td>
             <td>${employee.personGender}</td>
-            <td>${handleNullValues(employee.personDOB)}</td>
+            <td>${formatDate(employee.personDOB)}</td>
             <td>${employee.designationName} (${employee.designationNameAbbr})</td>
             <td>${employee.departmentName} (${employee.departmentNameAbbr})</td>
-            <td>${handleNullValues(employee.joiningDate)}</td>
+            <td>${formatDate(employee.joiningDate)}</td>
             <td>${handleNullValues(employee.uanNo)}</td>
             <td>
                 <button type="button" class="btn bg-gradient-primary btnEditEmployee" data-employee-id="${employee.employeeId}" onclick="onRowEditClick(${employee.employeeId})">Edit</button>
