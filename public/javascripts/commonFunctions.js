@@ -1,26 +1,44 @@
-function showFailureMessage(msg){
+function showFailureMessage(msg) {
     console.log('msg', msg);
     toastr.error(msg.toString())
 }
 
-function showSuccessMessage(msg){
+function showSuccessMessage(msg) {
     console.log('success msg', msg);
     toastr.success(msg.toString());
 }
 
-function showWarningMessage(msg){
+function showWarningMessage(msg) {
     console.log('warning msg', msg);
     toastr.warning(msg.toString())
 
 }
 
-function handleNullValues(val, nullSub = "NA"){
+function handleNullValues(val, nullSub = "NA") {
 
-    if(val == undefined || val == null){
+    if (val == undefined || val == null) {
         return nullSub;
     }
 
     return val;
+
+}
+
+function formatDate(date) {
+    if (date == undefined || date == null || date == "") {
+        return "";
+    }
+    const d = new Date(date);
+    const yyyy = d.getFullYear();
+    let mm = d.getMonth() + 1; // Months start at 0!
+    let dd = d.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedDate = yyyy + '-' + mm + '-' + dd;
+
+    return formattedDate;
 
 }
 

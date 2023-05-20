@@ -2,6 +2,8 @@ var designationsList = [];
 var departmentsList = [];
 var employeesList = [];
 
+var selectedEmployee = null;
+
 $(document).ready(function () {
 
     $("#selectEmployeeDepartment").on('change', ()=>{
@@ -13,10 +15,30 @@ $(document).ready(function () {
     })
 
     $(".btnAddEmployee").on('click', () => {
+
+        selectedEmployee = null;
+
+        $("#inputPersonId").val("");
         $("#inputEmployeeId").val("");
-        $("#inputDesignationName").val("");
-        $("#inputDesignationAbbr").val("");
-        $("#selectDepartmentName").val(null).trigger('change');
+
+        $("#inputEmployeeName").val("");
+        $("#selectEmployeeGender").val(null).trigger('change');
+        $("#inputEmployeeDob").val("");
+        $("#inputMobile").val("");
+        $("#inputAltMobile").val("");
+        $("#inputEmail").val("");
+
+        $("#selectEmployeeDepartment").val(null).trigger('change');
+        $("#selectEmployeeDesignation").val(null).trigger('change');
+
+        $("#inputEmployeeUan").val("");
+        $("#inputEmployeeDoj").val("");
+
+        $("#inputBankName").val("");
+        $("#inputBranchName").val("");
+        $("#inputIfscCode").val("");
+        $("#inputAccountNo").val("");
+
         $("#modalAddEditEmployee").modal('show');
     });
 
@@ -27,18 +49,34 @@ $(document).ready(function () {
     })
 
     $(".saveEmployee").on('click', () => {
-        let designationId = $("#inputEmployeeId").val();
-        let designationName = $("#inputDesignationName").val();
-        let designationNameAbbr = $("#inputDesignationAbbr").val();
 
-        let departmentId = $("#selectDepartmentName :selected").val();
+        let personId = $("#inputPersonId").val();
+        let employeeId = $("#inputEmployeeId").val();
+        let name = $("#inputEmployeeName").val();
+        let gender = $("#selectEmployeeGender :selected").val();
+        let dob = $("#inputEmployeeDob").val();
+        let mobile= $("#inputMobile").val();
+        let altMobile= $("#inputAltMobile").val();
+        let email = $("#inputEmail").val();
 
+        let departmentId = $("#selectEmployeeDepartment :selected").val();
+        let designationId = $("#selectEmployeeDesignation :selected").val();
         let companyId = $("#currentUserCompanyId").val();
 
-        if (designationId.trim() != "") {
-            addEditEmployee(designationName, designationNameAbbr, departmentId, companyId, designationId);
+        let uanNo = $("#inputEmployeeUan").val();
+        let doj = $("#inputEmployeeDoj").val();
+
+        let bankName = $("#inputBankName").val();
+        let bankBranch = $("#inputBranchName").val();
+        let ifscCode = $("#inputIfscCode").val();
+        let accountNo = $("#inputAccountNo").val();
+
+        let bankDetailsId = undefined;
+
+        if (employeeId.trim() != "") {
+            addEditEmployee(name, gender, dob, mobile, altMobile, email, companyId, departmentId, designationId, uanNo, doj, bankName, bankBranch, ifscCode, accountNo, bankDetailsId, employeeId, personId);
         } else {
-            addEditEmployee(designationName, designationNameAbbr, departmentId, companyId);
+            addEditEmployee(name, gender, dob, mobile, altMobile, email, companyId, departmentId, designationId, uanNo, doj, bankName, bankBranch, ifscCode, accountNo, bankDetailsId);
         }
     })
 
@@ -62,37 +100,55 @@ $(document).ready(function () {
 
 })
 
-function onRowEditClick(designationId){
-    console.log("designationId", designationId);
-    let designation = getDataFromList(designationId);
-    $("#inputEmployeeId").val(designation.designationId);
-    $("#inputDesignationName").val(designation.designationName);
-    $("#inputDesignationAbbr").val(designation.designationNameAbbr);
+function onRowEditClick(employeeId){
+    console.log("onRowEditClick");
 
-    $("#selectDepartmentName").val(designation.departmentId).trigger('change');
+    console.log("employeeId", employeeId);
+    let employee = getDataFromList(employeeId);
+    console.log("employee", employee);
+
+    selectedEmployee = employee;
+    $("#inputPersonId").val(employee.personId);
+    $("#inputEmployeeId").val(employee.employeeId);
+    $("#inputBankId").val(employee.bankDetailsId);
+
+    $("#inputEmployeeName").val(employee.personName);
+    $("#selectEmployeeGender").val(employee.personGender).trigger('change');
+    $("#inputEmployeeDob").val(formatDate(handleNullValues(employee.personDOB)));
+    $("#inputMobile").val(employee.personMobileNo);
+    $("#inputAltMobile").val(employee.personAlternateMobileNo);
+    $("#inputEmail").val(employee.personEmail);
+
+    $("#selectEmployeeDepartment").val(employee.departmentId).trigger('change');
+
+    $("#inputEmployeeUan").val(employee.uanNo);
+    $("#inputEmployeeDoj").val(formatDate(handleNullValues(employee.joiningDate)));
+
+    $("#inputBankName").val(employee.bankName);
+    $("#inputBranchName").val(employee.bankBranchName);
+    $("#inputIfscCode").val(employee.bankIfscCode);
+    $("#inputAccountNo").val(employee.bankAccountNo);
 
     $("#modalAddEditEmployee").modal();
 }
 
-function onRowDeleteClick(designationId){
+function onRowDeleteClick(employeeId){
 
-    console.log("designationId", designationId)
-    let designation = getDataFromList(designationId);
-    console.log("designation", designation)
-    $("#inputDeleteEmployeeId").val(designation.designationId);
-    $("#toBeDeletedEmployeeName").html(`${designation.designationName}(${designation.designationNameAbbr})`)
+    console.log("onRowDeleteClick");
+    
+    let employee = getDataFromList(employeeId);
+    
+    // $("#inputDeleteEmployeeId").val(designation.designationId);
+    // $("#toBeDeletedEmployeeName").html(`${designation.designationName}(${designation.designationNameAbbr})`)
 
     $("#modalDeleteEmployee").modal();
 }
-function testButton(id) {
-    console.log("testButton", id);
-}
 
 function getDataFromList(id) {
-    for (let i = 0; i < designationsList.length; i++) {
-        let designation = designationsList[i];
-        if (designation.designationId == id) {
-            return designation;
+    for (let i = 0; i < employeesList.length; i++) {
+        let employee = employeesList[i];
+        if (employee.employeeId == id) {
+            return employee;
         }
     }
 }
@@ -157,6 +213,12 @@ function populateDesignationOptions(departmentId){
         
     }
     $("#selectEmployeeDesignation").html(departmentsOptionContent);
+
+    if(selectedEmployee && selectedEmployee.designationId){
+        $("#selectEmployeeDesignation").val(selectedEmployee.designationId).trigger('change');
+    }else{
+        $("#selectEmployeeDesignation").val(null).trigger('change');
+    }
 
 }
 
@@ -289,17 +351,39 @@ function deleteEmployee(designationId) {
     })
 }
 
-function addEditEmployee(designationName, designationAbbr,  departmentId, companyId, designationId = undefined) {
+function addEditEmployee(name, gender, dob, mobile, altMobile, email, companyId, departmentId, designationId, uanNo, doj, bankName, bankBranch, ifscCode, accountNo, bankDetailsId = undefined, employeeId = undefined, personId = undefined) {
 
-    let data = { designationName: designationName, designationAbbr: designationAbbr, departmentId: departmentId, companyId: companyId }
-    if (designationId != undefined) {
-        data.designationId = designationId;
+    let data = { 
+        name,
+        gender, 
+        dob, 
+        mobile,
+        altMobile,
+        email,
+        companyId,
+        departmentId,
+        designationId,
+        uanNo,
+        doj,
+        bankName,
+        bankBranch,
+        ifscCode,
+        accountNo
+    }
+    
+    if (bankDetailsId != undefined) {
+        data.bankDetailsId = bankDetailsId;
+    }
+
+    if (employeeId != undefined && personId != undefined ) {
+        data.employeeId = employeeId;
+        data.personId = personId;
     }
 
     $("#addEditEmployeeLoader").show();
     $.ajax({
         type: "POST",
-        url: "/designations/addEditEmployee",
+        url: "/employees/addEditEmployee",
         data: data,
         dataType: 'json'
     }).always(function (data, textStatus, jqXHR) {
