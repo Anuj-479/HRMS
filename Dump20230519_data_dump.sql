@@ -16,24 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `addresses`
---
-
-LOCK TABLES `addresses` WRITE;
-/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `bank_accounts`
---
-
-LOCK TABLES `bank_accounts` WRITE;
-/*!40000 ALTER TABLE `bank_accounts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bank_accounts` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `companies`
 --
 
@@ -43,15 +25,6 @@ INSERT INTO `companies` VALUES (1,'HART EMS',1234567890,NULL,NULL,'HART','HART',
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Dumping data for table `credentials`
---
-
-LOCK TABLES `credentials` WRITE;
-/*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
-INSERT INTO `credentials` VALUES (1,'Admin','Admin',1,'admin','2023-05-18 20:46:15','2023-05-18 20:46:15');
-/*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping data for table `departments`
@@ -63,6 +36,8 @@ INSERT INTO `departments` VALUES (1,'Human Resource','HR',1,'HR','2023-05-19 09:
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
 --
 -- Dumping data for table `designations`
 --
@@ -72,6 +47,15 @@ LOCK TABLES `designations` WRITE;
 INSERT INTO `designations` VALUES (1,'Human Resource Manager','HR-Manager',1,1,'2023-05-19 09:40:49','2023-05-19 09:40:49');
 /*!40000 ALTER TABLE `designations` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+
+LOCK TABLES `persons` WRITE;
+/*!40000 ALTER TABLE `persons` DISABLE KEYS */;
+INSERT INTO `persons` VALUES (1,'Admin',NULL,'Male',1234567890,NULL,'admin@hrms.com',NULL,NULL,NULL,NULL,'2023-05-18 20:44:46','2023-05-18 20:59:44');
+/*!40000 ALTER TABLE `persons` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Dumping data for table `employees`
@@ -83,42 +67,18 @@ INSERT INTO `employees` VALUES (1,1,1,1,1,NULL,NULL,NULL,'2023-05-19',NULL,'2023
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Dumping data for table `founded`
+-- Dumping data for table `credentials`
 --
 
-LOCK TABLES `founded` WRITE;
-/*!40000 ALTER TABLE `founded` DISABLE KEYS */;
-/*!40000 ALTER TABLE `founded` ENABLE KEYS */;
+LOCK TABLES `credentials` WRITE;
+/*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
+INSERT INTO `credentials` VALUES (1,'Admin','Admin',1,'admin','2023-05-18 20:46:15','2023-05-18 20:46:15');
+/*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Dumping data for table `founders`
---
 
-LOCK TABLES `founders` WRITE;
-/*!40000 ALTER TABLE `founders` DISABLE KEYS */;
-/*!40000 ALTER TABLE `founders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `persons`
---
-
-LOCK TABLES `persons` WRITE;
-/*!40000 ALTER TABLE `persons` DISABLE KEYS */;
-INSERT INTO `persons` VALUES (1,'Admin',NULL,'Male',1234567890,NULL,'admin@hrms.com',NULL,NULL,NULL,NULL,'2023-05-18 20:44:46','2023-05-18 20:59:44');
-/*!40000 ALTER TABLE `persons` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `salaries`
---
-
-LOCK TABLES `salaries` WRITE;
-/*!40000 ALTER TABLE `salaries` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salaries` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `hrms_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `hrms_db`;
 -- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: hrms_db
@@ -58,7 +56,7 @@ CREATE TABLE `bank_accounts` (
   `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +103,7 @@ CREATE TABLE `credentials` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `FK_CRED_PERSON_ID` (`personId`),
   CONSTRAINT `FK_CRED_PERSON_ID` FOREIGN KEY (`personId`) REFERENCES `persons` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +124,7 @@ CREATE TABLE `departments` (
   PRIMARY KEY (`id`),
   KEY `FK_DEPARTMENTS_COMPANY_ID_idx` (`companyId`),
   CONSTRAINT `FK_DEPARTMENTS_COMPANY_ID` FOREIGN KEY (`companyId`) REFERENCES `companies` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +147,7 @@ CREATE TABLE `designations` (
   KEY `FK_DESIGNATIONS_DEPARTMENT_ID_idx` (`departmentId`),
   CONSTRAINT `FK_DESIGNATIONS_COMPANY_ID` FOREIGN KEY (`companyId`) REFERENCES `companies` (`id`),
   CONSTRAINT `FK_DESIGNATIONS_DEPARTMENT_ID` FOREIGN KEY (`departmentId`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +182,7 @@ CREATE TABLE `employees` (
   CONSTRAINT `FK_EMPLOYEED_DESIGNATION_ID` FOREIGN KEY (`designationId`) REFERENCES `designations` (`id`),
   CONSTRAINT `FK_EMPLOYEES_DEPRARTMENT_ID` FOREIGN KEY (`departmentId`) REFERENCES `departments` (`id`),
   CONSTRAINT `FK_PERSON_ID` FOREIGN KEY (`personId`) REFERENCES `persons` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,6 +229,66 @@ CREATE TABLE `founders` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `leave_requests`
+--
+
+DROP TABLE IF EXISTS `leave_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `leave_requests` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `employeeId` int unsigned NOT NULL,
+  `companyId` int unsigned NOT NULL,
+  `startDate` date NOT NULL,
+  `endDate` date NOT NULL,
+  `isApproved` tinyint DEFAULT '0',
+  `markedBy` int unsigned DEFAULT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `FK_LEAVE_REQUEST_EMPLOYEE_ID_idx` (`employeeId`),
+  KEY `FK_LEAVE_REQUEST_MARKED_BY_idx` (`markedBy`),
+  KEY `FK_LEAVE_REQUEST_COMPANY_ID_idx` (`companyId`),
+  CONSTRAINT `FK_LEAVE_REQUEST_COMPANY_ID` FOREIGN KEY (`companyId`) REFERENCES `companies` (`id`),
+  CONSTRAINT `FK_LEAVE_REQUEST_EMPLOYEE_ID` FOREIGN KEY (`employeeId`) REFERENCES `employees` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_LEAVE_REQUEST_MARKED_BY` FOREIGN KEY (`markedBy`) REFERENCES `employees` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `leaves`
+--
+
+DROP TABLE IF EXISTS `leaves`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `leaves` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `employeeId` int unsigned NOT NULL,
+  `startDate` date NOT NULL,
+  `endDate` date NOT NULL,
+  `leaveRequestId` int unsigned NOT NULL,
+  `approvedBy` int unsigned NOT NULL,
+  `approvedOn` datetime DEFAULT NULL,
+  `isCancelled` tinyint DEFAULT '0',
+  `cancelledBy` int unsigned DEFAULT NULL,
+  `cancelledOn` datetime DEFAULT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_LEAVE_LEAVE_REQUEST_ID_idx` (`leaveRequestId`),
+  KEY `FK_LEAVE_APPROVED_BY_idx` (`approvedBy`),
+  KEY `FK_LEAVE_EMPLOYEE_ID_idx` (`employeeId`),
+  KEY `FK_LEAVE_CANCELLED_BY_idx` (`cancelledBy`),
+  CONSTRAINT `FK_LEAVE_APPROVED_BY` FOREIGN KEY (`approvedBy`) REFERENCES `employees` (`id`),
+  CONSTRAINT `FK_LEAVE_CANCELLED_BY` FOREIGN KEY (`cancelledBy`) REFERENCES `employees` (`id`),
+  CONSTRAINT `FK_LEAVE_EMPLOYEE_ID` FOREIGN KEY (`employeeId`) REFERENCES `employees` (`id`),
+  CONSTRAINT `FK_LEAVE_LEAVE_REQUEST_ID` FOREIGN KEY (`leaveRequestId`) REFERENCES `leave_requests` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `persons`
 --
 
@@ -242,8 +300,8 @@ CREATE TABLE `persons` (
   `name` varchar(45) CHARACTER SET utf32 DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `gender` varchar(45) CHARACTER SET utf32 NOT NULL,
-  `mobileNo` int DEFAULT NULL,
-  `alternateMobileNo` int DEFAULT NULL,
+  `mobileNo` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alternateMobileNo` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `addressId` int unsigned DEFAULT NULL,
   `alternateAddressId` int unsigned DEFAULT NULL,
@@ -257,7 +315,7 @@ CREATE TABLE `persons` (
   KEY `FK_PERSON_ALT_ADDRESS_ID_idx` (`alternateAddressId`),
   CONSTRAINT `FK_PERSON_ADDRESS_ID` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`id`),
   CONSTRAINT `FK_PERSON_ALT_ADDRESS_ID` FOREIGN KEY (`alternateAddressId`) REFERENCES `addresses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,4 +359,4 @@ CREATE TABLE `salaries` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-19 12:24:02
+-- Dump completed on 2023-05-21 15:56:53
