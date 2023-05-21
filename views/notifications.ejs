@@ -1,0 +1,197 @@
+<%- include("./partials/dashboardHeader.ejs") -%>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"><%= title %></h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-outline-primary float-right btnCreateNotification">Create Notifcation</button>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="notificationTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Message</th>
+                                    <th>Priority</th>
+                                    <th>Notified By</th>
+                                    <th>Notified On</th>
+                                </tr>
+                                </thead>
+                                <tbody id="notificationTableBody">
+                                    <tr>
+                                        <td>1</th>
+                                        <td>It is to notify you that we have a appraisal coming in the month of june.</td>
+                                        <td>Normal</td>
+                                        <td>Admin</td>
+                                        <td>2023-05-21</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>It is to notify you that we have launched new HR policies.</td>
+                                        <td>High</td>
+                                        <td>Admin</td>
+                                        <td>2023-05-20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>It is to notify you that we have started colledcting donations for charity of poor kids. Please donate generously.</td>
+                                        <td>Normal</td>
+                                        <td>Admin</td>
+                                        <td>2023-05-18</td>
+                                    </tr>
+                                </tbody>
+                                <!-- <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Department Name</th>
+                                    <th>Department Abbreviation</th>
+                                </tr>
+                                </tfoot> -->
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
+                <!-- Add Department Modal -->
+                <div class="modal fade" id="modalAddNotification" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="addNotificationLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Notification</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputNotificationId">Notification ID</label>
+                                        <input type="text" class="form-control" id="inputNotificationId" placeholder="Enter Notification ID">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="selectNotificationForDepartment">For Department</label>
+                                        <select class="form-control" id="selectNotificationForDepartment" style="width: 100%;">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="selectNotificationForDesignation">For Designation</label>
+                                        <select class="form-control" id="selectNotificationForDesignation" style="width: 100%;">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputNotificationMessage">Notification Message</label>
+                                        <textarea rows="4" class="form-control" id="inputNotificationMessage" placeholder="Enter Department Name"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="selectPriority">Notifcation Priority</label>
+                                        <select class="form-control" id="selectPriority" style="width: 100%;">
+                                            <option value="normal">Normal</option>
+                                            <option value="high">High</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="selectExclusions">Exclude </label>
+                                        <select class="form-control" id="selectExclusions" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputInclusions">Include </label>
+                                        <select class="form-control" id="selectInclusions" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                   
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary saveDepartment">Save</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Add Department Modal -->
+
+                <!-- Delete Department Modal -->
+                <div class="modal fade" id="modalDeleteDepartment" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="overlay-wrapper">
+                                <div class="overlay " id="deleteDepartmentLoader" style="display: none;">
+                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Department</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete department <b id="toBeDeletedDepartmentName"></b> ?</p>
+                                <form>
+                                    <div class="form-group" style="display: none;">
+                                        <label for="inputDeleteDepartmentId">Department ID</label>
+                                        <input type="text" class="form-control" id="inputDeleteDepartmentId" placeholder="Enter Department ID">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger deleteDepartment">Delete</button>
+                            </div>
+                        </div>
+                
+                    </div>
+                
+                </div>
+                <!-- /.Delete Department Modal -->
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <%- include("./partials/dashboardFooter.ejs") -%>
+
+    <script src="./javascripts/notifications.js"></script>
+</body>
+
+</html>
+

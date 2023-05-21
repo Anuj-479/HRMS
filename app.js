@@ -12,7 +12,7 @@ var employeeRouter = require('./routes/employee')
 var departmentsRouter = require('./routes/departments')
 var designationsRouter = require('./routes/designations')
 var leavesRouter = require('./routes/leaves')
-
+var notificationsRouter =  require('./routes/notifications')
 var app = express();
 
 const MySQLStore = require('express-mysql-session')(session);
@@ -51,6 +51,7 @@ app.use('/employees', employeeRouter);
 app.use('/departments', departmentsRouter);
 app.use('/designations', designationsRouter);
 app.use('/leaves', leavesRouter);
+app.use('/notifications', notificationsRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
