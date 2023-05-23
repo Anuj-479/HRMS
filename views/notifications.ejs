@@ -36,27 +36,7 @@
                                 </tr>
                                 </thead>
                                 <tbody id="notificationTableBody">
-                                    <tr>
-                                        <td>1</th>
-                                        <td>It is to notify you that we have a appraisal coming in the month of june.</td>
-                                        <td>Normal</td>
-                                        <td>Admin</td>
-                                        <td>2023-05-21</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>It is to notify you that we have launched new HR policies.</td>
-                                        <td>High</td>
-                                        <td>Admin</td>
-                                        <td>2023-05-20</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>It is to notify you that we have started colledcting donations for charity of poor kids. Please donate generously.</td>
-                                        <td>Normal</td>
-                                        <td>Admin</td>
-                                        <td>2023-05-18</td>
-                                    </tr>
+                                   
                                 </tbody>
                                 <!-- <tfoot>
                                 <tr>
@@ -123,12 +103,12 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <label for="selectExclusions">Exclude </label>
                                         <select class="form-control" id="selectExclusions" style="width: 100%;">
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <label for="inputInclusions">Include </label>
                                         <select class="form-control" id="selectInclusions" style="width: 100%;">
                                         </select>
@@ -146,41 +126,6 @@
                 
                 </div>
                 <!-- /.Add Department Modal -->
-
-                <!-- Delete Department Modal -->
-                <div class="modal fade" id="modalDeleteDepartment" aria-modal="true" role="dialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="overlay-wrapper">
-                                <div class="overlay " id="deleteDepartmentLoader" style="display: none;">
-                                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-                                </div>
-                            </div>
-                            <div class="modal-header">
-                                <h4 class="modal-title">Delete Department</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete department <b id="toBeDeletedDepartmentName"></b> ?</p>
-                                <form>
-                                    <div class="form-group" style="display: none;">
-                                        <label for="inputDeleteDepartmentId">Department ID</label>
-                                        <input type="text" class="form-control" id="inputDeleteDepartmentId" placeholder="Enter Department ID">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger deleteDepartment">Delete</button>
-                            </div>
-                        </div>
-                
-                    </div>
-                
-                </div>
-                <!-- /.Delete Department Modal -->
 
             </div><!-- /.container-fluid -->
         </section>

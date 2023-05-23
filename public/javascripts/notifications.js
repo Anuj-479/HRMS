@@ -1,56 +1,42 @@
-var departmentsList = [];
+var departmentsList  = [];
+var designationsList = [];
+
 $(document).ready(function () {
+
+    $("#selectNotificationForDepartment").on('change', ()=>{
+        let departmentId = $("#selectNotificationForDepartment :selected").val();
+        console.log("departmentId", departmentId);
+        console.log("designationsList", designationsList);
+
+        populateDesignationOptions(departmentId)
+    })
 
     $(".btnCreateNotification").on('click', () => {
         
         $("#modalAddNotification").modal('show');
     });
 
-
-    $(".deleteDepartment").on('click', () => {
-        let departmentToDelete = $("#inputDeleteDepartmentId").val();
-        deleteDepartment(departmentToDelete)
-    })
-
     $(".saveDepartment").on('click', () => {
-        let departmentId = $("#inputDepartmentId").val();
-        let departmentName = $("#inputDepartmentName").val();
-        let departmentNameAbbr = $("#inputDepartmentAbbr").val();
+        let departmentId = $("#selectNotificationForDepartment").val();
+        let designationId = $("#selectNotificationForDesignation").val();
+        let msg = $("#inputNotificationMessage").val();
+        let priority = $("#selectPriority").val();
+        let companyId = $("#currentUserCompanyId").val();
+        let createdBy = $("#currentUserEmployeeId").val();
 
         if (departmentId.trim() != "") {
-            addEditDepartment(departmentName, departmentNameAbbr, 1, departmentId);
-        } else {
-            addEditDepartment(departmentName, departmentNameAbbr, 1);
+            addNotification(departmentId, designationId, msg, priority, companyId, createdBy);
         }
     })
 
-    //getDepartmentsList();
-
+    let companyId = $("#currentUserCompanyId").val();
+    let departmentId = $("#currentUserDepartmentId").val();
+    let designationId = $("#currentUserDesignationId").val();
+    getDepartmentsList( companyId );
+    getDesignationsList( companyId );
+    getNotificationList(companyId,departmentId,designationId);
+    
 })
-
-function onRowEditClick(departmentId){
-    console.log("departmentId", departmentId);
-    let department = getDataFromList(departmentId);
-    $("#inputDepartmentId").val(department.departmentId);
-    $("#inputDepartmentName").val(department.departmentName);
-    $("#inputDepartmentAbbr").val(department.departmentNameAbbr);
-
-    $("#modalAddEditDepartment").modal();
-}
-
-function onRowDeleteClick(departmentId){
-
-    console.log("departmentId", departmentId)
-    let department = getDataFromList(departmentId);
-    console.log("department", department)
-    $("#inputDeleteDepartmentId").val(department.departmentId);
-    $("#toBeDeletedDepartmentName").html(`${department.departmentName}(${department.departmentNameAbbr})`)
-
-    $("#modalDeleteDepartment").modal();
-}
-function testButton(id) {
-    console.log("testButton", id);
-}
 
 function getDataFromList(id) {
     for (let i = 0; i < departmentsList.length; i++) {
@@ -61,41 +47,61 @@ function getDataFromList(id) {
     }
 }
 
-function populateDepartmentTable() {
-
-    let departmentTableBodyContent = "";
+function populateDepartmentOptions(){
+    
+    let departmentsOptionContent = "<option value = '-1' >All Department</option>";
 
     for (let i = 0; i < departmentsList.length; i++) {
         let department = departmentsList[i];
-        departmentTableBodyContent +=
-        `<tr>
-            <td>${department.departmentId}</td>
-            <td>${department.departmentName}</td>
-            <td>${department.departmentNameAbbr}</td>
-            <td>
-                <button type="button" class="btn bg-gradient-primary btnEditDepartment" data-department-id="${department.departmentId}" onclick="onRowEditClick(${department.departmentId})">Edit</button>
-                <button type="button" class="btn bg-gradient-danger btnDeleteDepartment" data-department-id="${department.departmentId}" onclick="onRowDeleteClick(${department.departmentId})">Delete</button>
-            </td>
-        </tr>`;
+        departmentsOptionContent +=
+        `<option value="${department.departmentId}">${department.departmentName}(${department.departmentNameAbbr})</option>`;
     }
-
-    $("#departmentTableBody").html(departmentTableBodyContent);
-
-    $("#departmentTable").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": true
-    });
+    $("#selectNotificationForDepartment").html(departmentsOptionContent);
 
 }
 
 
-function getDepartmentsList() {
+function getDepartmentsList(companyId) {
     $("#pageContentLoader").show();
     $.ajax({
         type: "POST",
         url: "/departments/fetchDepartmentsList",
-        data: { 'companyId': 1 },
+        data: { 'companyId': companyId},
+        dataType: 'json'
+    }).always(function (data, textStatus, jqXHR) {
+
+        $("#pageContentLoader").hide();
+        ajaxResponseHandler(
+            data,
+            textStatus,
+            jqXHR,
+            (responseData) => {
+                if (responseData.data) {
+                    //showSuccessMessage(responseData.msg);
+                    departmentsList = responseData.data;
+                    populateDepartmentOptions();
+                } else {
+                    showFailureMessage("Something went wrong");
+                }
+
+            }
+        );
+
+    })
+}
+
+function getDesignationsList(companyId, departmentId = undefined) {
+
+    let data = { 'companyId': companyId };
+    if(departmentId != undefined) {
+        data.departmentId = departmentId;
+    }
+
+    $("#pageContentLoader").show();
+    $.ajax({
+        type: "POST",
+        url: "/designations/fetchDesignationsList",
+        data: data,
         dataType: 'json'
     }).always(function (data, textStatus, jqXHR) {
 
@@ -107,8 +113,8 @@ function getDepartmentsList() {
             (responseData) => {
                 if (responseData.data) {
                     showSuccessMessage(responseData.msg);
-                    departmentsList = responseData.data;
-                    populateDepartmentTable()
+                    designationsList = responseData.data;
+                    populateDesignationOptions(null);
 
                 } else {
                     showFailureMessage("Something went wrong");
@@ -120,64 +126,88 @@ function getDepartmentsList() {
     })
 }
 
+function getNotificationList(companyId, departmentId, designationId) {
 
-function deleteDepartment(departmentId) {
-    let data = { departmentId: departmentId };
-
-    $("#deleteDepartmentLoader").show();
-    $.ajax({
-        type: "POST",
-        url: "/departments/deleteDepartment",
-        data: data,
-        dataType: 'json'
-    }).always(function (data, textStatus, jqXHR) {
-
-        $("#deleteDepartmentLoader").hide();
-        ajaxResponseHandler(
-            data,
-            textStatus,
-            jqXHR,
-            (responseData) => {
-                if (responseData.msg) {
-                    $("#modalDeleteDepartment").modal('hide');
-                    showSuccessMessage(responseData.msg);
-                    //getDepartmentsList();
-                    location.reload();
-                } else {
-                    showFailureMessage("Something went wrong");
-                }
-
-            }
-        );
-
-    })
-}
-
-function addEditDepartment(departmentName, departmentAbbr, companyId, departmentId = undefined) {
-
-    let data = { departmentName: departmentName, departmentAbbr: departmentAbbr, companyId: companyId }
-    if (departmentId != undefined) {
+    let data = { 'companyId': companyId };
+    if(departmentId != undefined) {
         data.departmentId = departmentId;
     }
 
-    $("#addEditDepartmentLoader").show();
+    if(designationId != undefined) {
+        data.designationId = designationId;
+    }
+
+    $("#pageContentLoader").show();
     $.ajax({
         type: "POST",
-        url: "/departments/addEditDepartment",
+        url: "/notifications/fetchNotificationsList",
         data: data,
         dataType: 'json'
     }).always(function (data, textStatus, jqXHR) {
 
-        $("#addEditDepartmentLoader").hide();
+        $("#pageContentLoader").hide();
+        ajaxResponseHandler(
+            data,
+            textStatus,
+            jqXHR,
+            (responseData) => {
+                if (responseData.data) {
+                    showSuccessMessage(responseData.msg);
+                    notificationList = responseData.data;
+                    populateNotificationTable()
+
+                } else {
+                    showFailureMessage("Something went wrong");
+                }
+
+            }
+        );
+
+    })
+}
+
+function populateDesignationOptions(departmentId){
+    
+    let departmentsOptionContent = "<option value = '-1' >All Designations</option>";
+
+    for (let i = 0; i < designationsList.length; i++) {
+        let designation = designationsList[i];
+        if(departmentId == designation.departmentId){
+            departmentsOptionContent +=
+            `<option value="${designation.designationId}">${designation.designationName}(${designation.designationNameAbbr})</option>`;
+        }
+        
+    }
+    $("#selectNotificationForDesignation").html(departmentsOptionContent);
+    $("#selectNotificationForDesignation").val("-1").trigger('change');
+}
+
+function addNotification(departmentId, designationId,  msg, priority, companyId, createdBy, employeeId = undefined) {
+
+    let data = { departmentId: departmentId, designationId: designationId, msg: msg, priority: priority, createdBy: createdBy, companyId: companyId  }
+    if (designationId != undefined) {
+        data.designationId = designationId;
+    }
+
+    $("#addNotificationLoader").show();
+    $.ajax({
+        type: "POST",
+        url: "/notifications/addNotifications",
+        data: data,
+        dataType: 'json'
+    }).always(function (data, textStatus, jqXHR) {
+
+        $("#addNotificationLoader").hide();
         ajaxResponseHandler(
             data,
             textStatus,
             jqXHR,
             (responseData) => {
                 if (responseData.msg) {
-                    $("#modalAddEditDepartment").modal('hide');
+                    $("#modalAddNotification").modal('hide');
                     showSuccessMessage(responseData.msg);
-                    //getDepartmentsList();
+                    let companyId = $("#currentUserCompanyId").val();
+                    //getDesignationsList(companyId);
                     location.reload();
                 } else {
                     showFailureMessage("Something went wrong");
@@ -187,4 +217,31 @@ function addEditDepartment(departmentName, departmentAbbr, companyId, department
         );
 
     })
+}
+
+function populateNotificationTable() {
+
+    let notificationTableBodyContent = "";
+
+    for (let i = 0; i < notificationList.length; i++) {
+        let notification = notificationList[i];
+        notificationTableBodyContent +=
+        `<tr>
+            <td>${notification.notificationId}</td>
+            <td>${notification.msg}</td>
+            <td>${notification.priority}</td>
+            <td>${notification.createdBy}</td>
+            <td>${formatDate(notification.createdAt)}</td>
+        </tr>`;
+    }
+
+    $("#notificationTableBody").html(notificationTableBodyContent);
+
+
+    $("#notificationTable").DataTable({
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false, 
+    });
+
 }
