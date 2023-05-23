@@ -83,6 +83,7 @@ function getDataFromList(id) {
 
 function populateDesignationTable() {
 
+    let role = $("#currentUserRole").val();
     let designationTableBodyContent = "";
 
     for (let i = 0; i < designationsList.length; i++) {
@@ -95,8 +96,14 @@ function populateDesignationTable() {
             <td>${designation.departmentName}</td>
             <td>${designation.departmentNameAbbr}</td>
             <td>
-                <button type="button" class="btn bg-gradient-primary btnEditDesignation" data-designation-id="${designation.designationId}" onclick="onRowEditClick(${designation.designationId})">Edit</button>
-                <button type="button" class="btn bg-gradient-danger btnDeleteDesignation" data-designation-id="${designation.designationId}" onclick="onRowDeleteClick(${designation.designationId})">Delete</button>
+             ${
+                    (role.toLowerCase() == 'admin' || role.toLowerCase() == 'hr')?
+                    `<button type="button" class="btn bg-gradient-primary btnEditDesignation" data-designation-id="${designation.designationId}" onclick="onRowEditClick(${designation.designationId})">Edit</button>
+                    <button type="button" class="btn bg-gradient-danger btnDeleteDesignation" data-designation-id="${designation.designationId}" onclick="onRowDeleteClick(${designation.designationId})">Delete</button>`
+                    :
+                    ``
+                }
+                
             </td>
         </tr>`;
     }

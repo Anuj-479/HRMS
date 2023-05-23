@@ -1,5 +1,6 @@
 var departmentsList  = [];
 var designationsList = [];
+var notificationList = [];
 
 $(document).ready(function () {
 

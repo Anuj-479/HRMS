@@ -155,6 +155,8 @@ function getDataFromList(id) {
 
 function populateEmployeeTable() {
 
+    let role = $("#currentUserRole").val();
+
     let employeeTableBodyContent = "";
 
     for (let i = 0; i < employeesList.length; i++) {
@@ -170,8 +172,13 @@ function populateEmployeeTable() {
             <td>${formatDate(employee.joiningDate)}</td>
             <td>${handleNullValues(employee.uanNo)}</td>
             <td>
-                <button type="button" class="btn bg-gradient-primary btnEditEmployee" data-employee-id="${employee.employeeId}" onclick="onRowEditClick(${employee.employeeId})">Edit</button>
-                <button type="button" class="btn bg-gradient-danger btnDeleteEmployee" data-employee-id="${employee.employeeId}" onclick="onRowDeleteClick(${employee.employeeId})" style="display:none">Delete</button>
+                ${
+                    (role.toLowerCase() == 'admin' || role.toLowerCase() == 'hr')?
+                    `<button type="button" class="btn bg-gradient-primary btnEditEmployee" data-employee-id="${employee.employeeId}" onclick="onRowEditClick(${employee.employeeId})">Edit</button>
+                    <button type="button" class="btn bg-gradient-danger btnDeleteEmployee" data-employee-id="${employee.employeeId}" onclick="onRowDeleteClick(${employee.employeeId})" style="display:none">Delete</button>`
+                    :
+                    ``
+                }
             </td>
         </tr>`;
     }
