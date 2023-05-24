@@ -23,7 +23,7 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3 id="employeesCount">0</h3>
 
                             <p>Employees</p>
                         </div>
@@ -39,7 +39,7 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3 id="departmentsCount">0</h3>
 
                             <p>Departments</p>
                         </div>
@@ -55,7 +55,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3 id="designationsCount">0</h3>
 
                             <p>Designations</p>
                         </div>
@@ -71,7 +71,7 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3 id="pendingLeaveRequestsCount">0</h3>
 
                             <p>Pending Leave Notifications</p>
                         </div>
@@ -91,6 +91,7 @@
 </div>
 
 <%- include("./partials/dashboardFooter.ejs") -%>
+<script src="./javascripts/dashboard.js"></script>
 
 
 </body>

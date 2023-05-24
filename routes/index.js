@@ -3,6 +3,7 @@ var router = express.Router();
 const authHelper = require('./../helper/authHelper')
 const dbConnection = require('./../database/DBConnection');
 const loginController = require('./../controllers/loginController');
+const dashboardController = require('./../controllers/dashboardController');
 
 
 
@@ -45,5 +46,6 @@ router.get('/dashboard', authHelper.isAuthenticated, async function(req, res, ne
 });
 
 router.post('/login', loginController.validateLoginRequest, loginController.login)
+router.post('/fetchDashboardData', dashboardController.fetchDashboardData)
 
 module.exports = router;
