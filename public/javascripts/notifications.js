@@ -113,7 +113,7 @@ function getDesignationsList(companyId, departmentId = undefined) {
             jqXHR,
             (responseData) => {
                 if (responseData.data) {
-                    showSuccessMessage(responseData.msg);
+                    //showSuccessMessage(responseData.msg);
                     designationsList = responseData.data;
                     populateDesignationOptions(null);
 
