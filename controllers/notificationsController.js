@@ -45,7 +45,7 @@ exports.fetchNotificationList = async (req, res) => {
     if (notificationQueryResult.length == 0) {
         return res.status(200).send({ 'data': [], 'msg': 'No designations found' });
     } else {
-        return res.status(200).send({ 'data': notificationQueryResult, 'msg': 'Designations list fetched successfully' });
+        return res.status(200).send({ 'data': notificationQueryResult, 'msg': 'Notifications list fetched successfully' });
     }
 
 }
