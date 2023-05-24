@@ -191,7 +191,7 @@ const addEditEmployee = async (req, res) => {
                     departmentId='${departmentId}',
                     designationId='${designationId}',
                     uanNo=${uanNo == null? 'NULL': "'"+uanNo+"'"},
-                    bankDetailsId = '${newBankDetailsId}'
+                    bankDetailsId = ${newBankDetailsId == null? 'NULL': "'"+newBankDetailsId+"'"}
                 WHERE 
                     employees.id = '${personId}'
                 ;`;
